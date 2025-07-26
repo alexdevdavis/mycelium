@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { typeOrmConfig } from './config/typeorm.config';
+import { BlogPostsModule } from './blog-posts/blog-posts.module';
 import * as path from 'path';
 
 @Module({
@@ -18,6 +19,7 @@ import * as path from 'path';
       isGlobal: true,
     }),
     TypeOrmModule.forRoot(typeOrmConfig),
+    BlogPostsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

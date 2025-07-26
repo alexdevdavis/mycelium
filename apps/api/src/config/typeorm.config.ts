@@ -1,4 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { BlogPost } from 'src/blog-posts/entities/blog-post.entity';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'postgres',
@@ -7,7 +8,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   username: process.env.DB_USER || 'postgres',
   password: process.env.DB_PASS || 'postgres',
   database: process.env.DB_NAME || 'mycelium',
-  entities: [],
+  entities: [BlogPost],
   synchronize: true, // todo: investigate code smell
   autoLoadEntities: true,
 };
