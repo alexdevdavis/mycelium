@@ -8,5 +8,5 @@ export async function seedBlogPosts(dataSource: DataSource) {
   await repo.deleteAll();
 
   const result = await repo.save(blogPostSeedData);
-  console.log(result, '<-- seeded data save output');
+  console.log(result.length > 0 ? '✅ data seeded' : '😬 no data seeded');
 }

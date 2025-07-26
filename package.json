@@ -7,7 +7,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-    "stop-pg-dev": "docker compose -f infra/postgres/docker-compose.yml down"
+    "stop-pg-dev": "docker compose -f infra/postgres/docker-compose.yml down -v"
   },
   "devDependencies": {
     "prettier": "^3.6.2",

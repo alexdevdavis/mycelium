@@ -2,6 +2,7 @@
   "name": "postgres-dev",
   "private": true,
   "scripts": {
-    "dev": "docker compose --env-file ../../.env.development -f docker-compose.yml up -d"
+    "dev": "docker compose --env-file ../../.env.development -f docker-compose.yml up -d",
+    "test": "docker compose --env-file ../../.env.test -f docker-compose.yml up -d"
   }
 }

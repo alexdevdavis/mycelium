@@ -1,4 +1,4 @@
-import { IsShortString } from 'src/common/decorators/validation.decorators';
+import { IsShortString } from '../../common/decorators/validation.decorators';
 import { IsString } from 'class-validator';
 
 export class CreateBlogPostDto {
