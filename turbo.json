@@ -5,7 +5,8 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [".next/**", "!.next/cache/**"],
+      "env": ["DB_HOST", "DB_PORT", "DB_USER", "DB_PASS", "DB_NAME"]
     },
     "lint": {
       "dependsOn": ["^lint"]
@@ -15,7 +16,8 @@
     },
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "env": ["DB_HOST", "DB_PORT", "DB_USER", "DB_PASS", "DB_NAME"]
     }
   }
 }
