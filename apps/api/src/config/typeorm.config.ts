@@ -1,7 +1,12 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { BlogPost } from 'src/blog-posts/entities/blog-post.entity';
+import { DataSourceOptions } from 'typeorm';
+import { BlogPost } from '../blog-posts/entities/blog-post.entity';
+import { config } from 'dotenv';
 
-export const typeOrmConfig: TypeOrmModuleOptions = {
+const envFile = `.env.${process.env.NODE_ENV ?? 'development'}`;
+config({ path: envFile });
+
+export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
   host: process.env.DB_HOST || 'localhost',
   port: Number(process.env.DB_PORT ?? 5433),
@@ -9,6 +14,10 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   password: process.env.DB_PASS || 'postgres',
   database: process.env.DB_NAME || 'mycelium',
   entities: [BlogPost],
-  synchronize: true, // todo: investigate code smell
+  synchronize: true,
+};
+
+export const typeOrmConfig: TypeOrmModuleOptions = {
+  ...dataSourceOptions,
   autoLoadEntities: true,
 };
