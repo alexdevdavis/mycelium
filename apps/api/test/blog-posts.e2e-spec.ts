@@ -102,7 +102,6 @@ describe('/api/v1/blog-posts (e2e)', () => {
         .send(blogToPost)
         .expect(201);
       const { blogPost } = response.body as SingleBlogPostResponse['body'];
-      console.log(blogPost);
       expect(typeof blogPost.id).toBe('number');
       expect(blogPost).toMatchObject({
         ...blogToPost,
@@ -113,6 +112,21 @@ describe('/api/v1/blog-posts (e2e)', () => {
   });
 
   describe('PATCH /api/v1/blog-posts/:id', () => {
-    it('201: responds with updated blog post when posted JSON partially satisfies UpdateBlogPostDTO', () => {});
+    it('201: responds with updated blog post when posted JSON satisfies UpdateBlogPostDTO', async () => {
+      const targetBlogPostID = 1;
+      const targetKey = 'author';
+      const authorUpdate = 'fun guy 4000';
+      const patchedAuthorResponse = await request(app.getHttpServer())
+        .patch(`/api/v1/blog-posts/${targetBlogPostID}`)
+        .send({ [targetKey]: authorUpdate })
+        .expect(200);
+
+      console.log(patchedAuthorResponse.body);
+
+      const { blogPost } =
+        patchedAuthorResponse.body as SingleBlogPostResponse['body'];
+      expect(blogPost.author).toBe(authorUpdate);
+      expect(blogPost.id).toBe(targetBlogPostID);
+    });
   });
 });

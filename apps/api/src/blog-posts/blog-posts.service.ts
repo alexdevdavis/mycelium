@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBlogPostDto } from './dto/create-blog-post.dto';
 import { UpdateBlogPostDto } from './dto/update-blog-post.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -27,8 +27,16 @@ export class BlogPostsService {
     return { blogPost };
   }
 
-  update(id: number, updateBlogPostDto: UpdateBlogPostDto) {
-    return `This action updates a #${id} blogPost`;
+  async update(id: number, updateBlogPostDto: UpdateBlogPostDto) {
+    const updatedBlogPost = await this.blogPostsRepository.preload({
+      id,
+      ...updateBlogPostDto,
+    });
+    if (!updatedBlogPost) {
+      throw new NotFoundException('blog post not found');
+    }
+    const blogPost = await this.blogPostsRepository.save(updatedBlogPost);
+    return { blogPost };
   }
 
   remove(id: number) {
