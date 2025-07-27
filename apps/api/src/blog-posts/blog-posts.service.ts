@@ -14,7 +14,7 @@ export class BlogPostsService {
   async create(createBlogPostDto: CreateBlogPostDto) {
     const blogPost = this.blogPostsRepository.create(createBlogPostDto);
     const createdBlogPost = await this.blogPostsRepository.save(blogPost);
-    return { createdBlogPost };
+    return { blogPost: createdBlogPost };
   }
 
   async findAll() {
