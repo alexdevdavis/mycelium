@@ -42,31 +42,31 @@ describe('/api/v1/blog-posts (e2e)', () => {
       await dataSource.destroy();
     }
   });
-  describe('200: /api/v1/blog-posts (GET)', () => {
-    it('reponds with a list of all of blog posts', () => {
+  describe('GET /api/v1/blog-posts', () => {
+    it('200: responds with a list of all of blog posts', () => {
       return request(app.getHttpServer())
         .get('/api/v1/blog-posts')
         .expect(200)
         .then(
           ({ body: { blogPosts } }: { body: { blogPosts: BlogPost[] } }) => {
             expect(blogPosts).toHaveLength(2);
-            blogPosts.forEach((bp) => {
-              expect(bp).toMatchObject({
-                id: expect.any(Number),
-                author: expect.any(String),
-                tagline: expect.any(String),
-                content: expect.any(String),
-                created_at: new Date(bp.created_at).toISOString(),
-                updated_at: new Date(bp.created_at).toISOString(),
-              });
-            });
+            blogPosts.forEach(
+              ({ id, author, tagline, content, created_at, updated_at }) => {
+                expect(typeof id).toBe('number');
+                expect(typeof author).toBe('string');
+                expect(typeof tagline).toBe('string');
+                expect(typeof content).toBe('string');
+                expect(new Date(created_at).toISOString()).toEqual(created_at);
+                expect(new Date(updated_at).toISOString()).toEqual(updated_at);
+              },
+            );
           },
         );
     });
   });
 
-  describe('200: /:id (GET)', () => {
-    it('responds with associated blog post when param is an existing blog-post id', () => {
+  describe('GET /api/v1/blog-posts/:id', () => {
+    it('200: responds with associated blog post when param is an existing blog-post id', () => {
       return request(app.getHttpServer())
         .get('/api/v1/blog-posts/1')
         .expect(200)
