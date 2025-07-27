@@ -37,9 +37,6 @@ describe('/api/v1/blog-posts (e2e)', () => {
 
   afterEach(async () => {
     await app.close();
-  });
-
-  afterAll(async () => {
     if (dataSource.isInitialized) {
       await dataSource.destroy();
     }
@@ -62,5 +59,22 @@ describe('/api/v1/blog-posts (e2e)', () => {
           });
         });
       });
+  });
+
+  describe('200: /:id (GET)', () => {
+    it('responds with associated blog post when param is a valid id', () => {
+      return request(app.getHttpServer())
+        .get('/api/v1/blog-posts/1')
+        .expect(200)
+        .then(({ body: { blogPost } }) => {
+          expect(blogPost).toMatchObject({
+            id: 1,
+            author: 'fun guy 3000',
+            tagline: 'learning about turborepo',
+            content:
+              "I think this is how I'm going to build all my full stack TS projects from now on",
+          });
+        });
+    });
   });
 });

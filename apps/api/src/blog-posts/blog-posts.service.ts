@@ -20,8 +20,9 @@ export class BlogPostsService {
     return { blogPosts };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} blogPost`;
+  async findOne(id: number) {
+    const [blogPost] = await this.blogPostsRepository.findBy({ id });
+    return { blogPost };
   }
 
   update(id: number, updateBlogPostDto: UpdateBlogPostDto) {
