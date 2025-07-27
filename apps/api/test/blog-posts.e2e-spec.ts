@@ -6,6 +6,7 @@ import { AppModule } from './../src/app.module';
 import { DataSource } from 'typeorm';
 import { buildDataSourceOptions } from '../src/config/typeorm.config';
 import { runSeed } from '../seeds';
+import { BlogPost } from 'src/blog-posts/entities/blog-post.entity';
 
 describe('/api/v1/blog-posts (e2e)', () => {
   let app: INestApplication<App>;
@@ -41,32 +42,35 @@ describe('/api/v1/blog-posts (e2e)', () => {
       await dataSource.destroy();
     }
   });
-
-  it('200: /api/v1/blog-posts (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/api/v1/blog-posts')
-      .expect(200)
-      .then(({ body: { blogPosts } }) => {
-        expect(blogPosts).toHaveLength(2);
-        blogPosts.forEach((bp) => {
-          expect(bp).toMatchObject({
-            id: expect.any(Number),
-            author: expect.any(String),
-            tagline: expect.any(String),
-            content: expect.any(String),
-            created_at: new Date(bp.created_at).toISOString(),
-            updated_at: new Date(bp.created_at).toISOString(),
-          });
-        });
-      });
+  describe('200: /api/v1/blog-posts (GET)', () => {
+    it('reponds with a list of all of blog posts', () => {
+      return request(app.getHttpServer())
+        .get('/api/v1/blog-posts')
+        .expect(200)
+        .then(
+          ({ body: { blogPosts } }: { body: { blogPosts: BlogPost[] } }) => {
+            expect(blogPosts).toHaveLength(2);
+            blogPosts.forEach((bp) => {
+              expect(bp).toMatchObject({
+                id: expect.any(Number),
+                author: expect.any(String),
+                tagline: expect.any(String),
+                content: expect.any(String),
+                created_at: new Date(bp.created_at).toISOString(),
+                updated_at: new Date(bp.created_at).toISOString(),
+              });
+            });
+          },
+        );
+    });
   });
 
   describe('200: /:id (GET)', () => {
-    it('responds with associated blog post when param is a valid id', () => {
+    it('responds with associated blog post when param is an existing blog-post id', () => {
       return request(app.getHttpServer())
         .get('/api/v1/blog-posts/1')
         .expect(200)
-        .then(({ body: { blogPost } }) => {
+        .then(({ body: { blogPost } }: { body: { blogPost: BlogPost } }) => {
           expect(blogPost).toMatchObject({
             id: 1,
             author: 'fun guy 3000',
