@@ -15,8 +15,9 @@ export class BlogPostsService {
     return 'This action adds a new blogPost';
   }
 
-  findAll() {
-    return `This action returns all blogPosts`;
+  async findAll() {
+    const blogPosts = await this.blogPostsRepository.find();
+    return { blogPosts };
   }
 
   findOne(id: number) {

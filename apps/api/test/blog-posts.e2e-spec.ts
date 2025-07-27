@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, VersioningType } from '@nestjs/common';
 import * as request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from './../src/app.module';
@@ -26,7 +26,17 @@ describe('/api/v1/blog-posts (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.enableVersioning({
+      type: VersioningType.URI,
+      prefix: 'api/v',
+      defaultVersion: '1',
+    });
+
     await app.init();
+  });
+
+  afterEach(async () => {
+    await app.close();
   });
 
   afterAll(async () => {
@@ -41,6 +51,16 @@ describe('/api/v1/blog-posts (e2e)', () => {
       .expect(200)
       .then(({ body: { blogPosts } }) => {
         expect(blogPosts).toHaveLength(2);
+        blogPosts.forEach((bp) => {
+          expect(bp).toMatchObject({
+            id: expect.any(Number),
+            author: expect.any(String),
+            tagline: expect.any(String),
+            content: expect.any(String),
+            created_at: new Date(bp.created_at).toISOString(),
+            updated_at: new Date(bp.created_at).toISOString(),
+          });
+        });
       });
   });
 });

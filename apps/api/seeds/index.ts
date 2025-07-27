@@ -10,11 +10,6 @@ export async function runSeed(dataSource: DataSource): Promise<void> {
     await seedBlogPosts(dataSource);
   } catch (error) {
     void Promise.reject(new Error(`seeding failed: ${error}`));
-  } finally {
-    console.log('closing database connection');
-    if (dataSource.isInitialized) {
-      await dataSource.destroy();
-    }
   }
 }
 
