@@ -7,6 +7,7 @@ import { DataSource } from 'typeorm';
 import { buildDataSourceOptions } from '../src/config/typeorm.config';
 import { runSeed } from '../seeds';
 import { BlogPost } from 'src/blog-posts/entities/blog-post.entity';
+import { CreateBlogPostDto } from 'src/blog-posts/dto/create-blog-post.dto';
 
 describe('/api/v1/blog-posts (e2e)', () => {
   let app: INestApplication<App>;
@@ -79,6 +80,34 @@ describe('/api/v1/blog-posts (e2e)', () => {
               "I think this is how I'm going to build all my full stack TS projects from now on",
           });
         });
+    });
+  });
+
+  describe('POST /api/v1/blog-posts/', () => {
+    it('201: responds with created blog post when posted JSON satisfies CreateBlogPost DTO', () => {
+      const blogPost: CreateBlogPostDto = {
+        author: 'The Node',
+        tagline: 'Help with environment variables',
+        content:
+          'Hello, everyone. Can someone please help me share this api key across my whole monorepo: 5UP3RS3CR37-K3Y',
+      };
+      return request(app.getHttpServer())
+        .post('/api/v1/blog-posts')
+        .send(blogPost)
+        .expect(201)
+        .then(
+          ({
+            body: { createdBlogPost },
+          }: {
+            body: { createdBlogPost: BlogPost };
+          }) => {
+            expect(createdBlogPost).toMatchObject({
+              ...blogPost,
+              created_at: new Date(createdBlogPost.created_at).toISOString(),
+              updated_at: new Date(createdBlogPost.updated_at).toISOString(),
+            });
+          },
+        );
     });
   });
 });

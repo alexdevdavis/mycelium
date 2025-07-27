@@ -11,8 +11,10 @@ export class BlogPostsService {
     @InjectRepository(BlogPost)
     private blogPostsRepository: Repository<BlogPost>,
   ) {}
-  create(createBlogPostDto: CreateBlogPostDto) {
-    return 'This action adds a new blogPost';
+  async create(createBlogPostDto: CreateBlogPostDto) {
+    const blogPost = this.blogPostsRepository.create(createBlogPostDto);
+    const createdBlogPost = await this.blogPostsRepository.save(blogPost);
+    return { createdBlogPost };
   }
 
   async findAll() {
