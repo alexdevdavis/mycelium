@@ -24,6 +24,7 @@ export class BlogPostsService {
 
   async findOne(id: number) {
     const [blogPost] = await this.blogPostsRepository.findBy({ id });
+    if (!blogPost) throw new NotFoundException('blog post not found');
     return { blogPost };
   }
 
@@ -40,7 +41,10 @@ export class BlogPostsService {
   }
 
   async remove(id: number) {
-    await this.blogPostsRepository.delete({ id });
+    const { affected } = await this.blogPostsRepository.delete({ id });
+    if (affected === 0) {
+      throw new NotFoundException('blog post not found');
+    }
     return;
   }
 }

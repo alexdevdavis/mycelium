@@ -147,23 +147,15 @@ describe('/api/v1/blog-posts (e2e)', () => {
 
   describe('DELETE /api/v1/blog-posts/:id', () => {
     it('204: responds with a no content success when param is an existing blog post id', async () => {
-      const preDeletionResponse: MultipleBlogPostsResponse = await request(
-        app.getHttpServer(),
-      )
-        .get('/api/v1/blog-posts')
-        .expect(200);
-      const preDeletionBlogPostsLength =
-        preDeletionResponse.body.blogPosts.length;
+      const targetId = 1;
 
       await request(app.getHttpServer())
-        .delete('/api/v1/blog-posts/1')
+        .delete(`/api/v1/blog-posts/${targetId}`)
         .expect(204);
 
-      const response = await request(app.getHttpServer())
-        .get('/api/v1/blog-posts')
-        .expect(200);
-      const { blogPosts } = response.body as MultipleBlogPostsResponse['body'];
-      expect(blogPosts.length).toBeLessThan(preDeletionBlogPostsLength);
+      await request(app.getHttpServer())
+        .delete(`/api/v1/blog-posts/${targetId}`)
+        .expect(404);
     });
   });
 });
