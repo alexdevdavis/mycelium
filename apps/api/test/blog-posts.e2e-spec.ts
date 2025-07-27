@@ -8,6 +8,7 @@ import { buildDataSourceOptions } from '../src/config/typeorm.config';
 import { runSeed } from '../seeds';
 import { BlogPost } from 'src/blog-posts/entities/blog-post.entity';
 import { CreateBlogPostDto } from 'src/blog-posts/dto/create-blog-post.dto';
+import { UpdateBlogPostDto } from 'src/blog-posts/dto/update-blog-post.dto';
 
 describe('/api/v1/blog-posts (e2e)', () => {
   let app: INestApplication<App>;
@@ -112,21 +113,57 @@ describe('/api/v1/blog-posts (e2e)', () => {
   });
 
   describe('PATCH /api/v1/blog-posts/:id', () => {
-    it('201: responds with updated blog post when posted JSON satisfies UpdateBlogPostDTO', async () => {
-      const targetBlogPostID = 1;
-      const targetKey = 'author';
-      const authorUpdate = 'fun guy 4000';
-      const patchedAuthorResponse = await request(app.getHttpServer())
-        .patch(`/api/v1/blog-posts/${targetBlogPostID}`)
-        .send({ [targetKey]: authorUpdate })
+    const updates: Array<{
+      id: number;
+      field: keyof UpdateBlogPostDto;
+      value: string;
+    }> = [
+      { id: 1, field: 'author', value: 'fun guy 4000' },
+      { id: 1, field: 'tagline', value: 'loving turborepo!' },
+      {
+        id: 2,
+        field: 'content',
+        value: 'This is the way for me to build apis – lesssgo!',
+      },
+    ];
+    test.each(updates)(
+      '200: updates the $field field when propery provides valid value',
+      async ({ id, field, value }) => {
+        const patchedAuthorResponse = await request(app.getHttpServer())
+          .patch(`/api/v1/blog-posts/${id}`)
+          .send({ [field]: value })
+          .expect(200);
+
+        const { blogPost } =
+          patchedAuthorResponse.body as SingleBlogPostResponse['body'];
+        expect(blogPost[field]).toBe(value);
+        expect(blogPost.id).toBe(id);
+        expect(new Date(blogPost.updated_at)).not.toEqual(
+          new Date(blogPost.created_at),
+        );
+      },
+    );
+  });
+
+  describe('DELETE /api/v1/blog-posts/:id', () => {
+    it('204: responds with a no content success when param is an existing blog post id', async () => {
+      const preDeletionResponse: MultipleBlogPostsResponse = await request(
+        app.getHttpServer(),
+      )
+        .get('/api/v1/blog-posts')
         .expect(200);
+      const preDeletionBlogPostsLength =
+        preDeletionResponse.body.blogPosts.length;
 
-      console.log(patchedAuthorResponse.body);
+      await request(app.getHttpServer())
+        .delete('/api/v1/blog-posts/1')
+        .expect(204);
 
-      const { blogPost } =
-        patchedAuthorResponse.body as SingleBlogPostResponse['body'];
-      expect(blogPost.author).toBe(authorUpdate);
-      expect(blogPost.id).toBe(targetBlogPostID);
+      const response = await request(app.getHttpServer())
+        .get('/api/v1/blog-posts')
+        .expect(200);
+      const { blogPosts } = response.body as MultipleBlogPostsResponse['body'];
+      expect(blogPosts.length).toBeLessThan(preDeletionBlogPostsLength);
     });
   });
 });

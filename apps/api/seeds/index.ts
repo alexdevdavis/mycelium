@@ -4,9 +4,7 @@ import { seedBlogPosts } from './blog-posts.seed';
 
 export async function runSeed(dataSource: DataSource): Promise<void> {
   try {
-    console.log('initialising database connection');
     await dataSource.initialize();
-    console.log('seeding data');
     await seedBlogPosts(dataSource);
   } catch (error) {
     void Promise.reject(new Error(`seeding failed: ${error}`));

@@ -39,7 +39,8 @@ export class BlogPostsService {
     return { blogPost };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} blogPost`;
+  async remove(id: number) {
+    await this.blogPostsRepository.delete({ id });
+    return;
   }
 }
