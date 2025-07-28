@@ -3,6 +3,10 @@
   "compilerOptions": {
     "outDir": "dist"
   },
-  "include": ["src"],
+  "include": [
+    "src",
+    "../../apps/web/src/components/blog-item.tsx",
+    "../../apps/web/src/components/blog-post.tsx"
+  ],
   "exclude": ["node_modules", "dist"]
 }

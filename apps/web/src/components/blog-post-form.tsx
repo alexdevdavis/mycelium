@@ -4,12 +4,14 @@ import type { BlogPostDTO } from "../blog-posts-data";
 type BlogPostFormProps = {
   initialValues?: BlogPostDTO;
   buttonText: "save" | "submit";
+  className: string;
   onSubmit: (values: BlogPostDTO) => void;
 };
 
 export function BlogPostForm({
   initialValues,
   buttonText,
+  className,
   onSubmit,
 }: BlogPostFormProps) {
   const [tagline, setTagline] = useState(initialValues?.tagline ?? "");
@@ -22,10 +24,11 @@ export function BlogPostForm({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={className}>
       <label>
         Tagline:
         <input
+          name="tagline"
           type="text"
           value={tagline}
           onChange={(e) => setTagline(e.target.value)}
