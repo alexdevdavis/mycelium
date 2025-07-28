@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BlogItem } from "@repo/ui/blog-item";
+import { BlogItem } from "../components/blog-item";
 import { getBlogPosts } from "../blog-posts-data";
+import "./index.css";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -11,7 +12,6 @@ function Home() {
   const data = Route.useLoaderData();
   return (
     <div>
-      <h2 className="text-2xl mb-4">All Blog Posts</h2>
       <ul>
         {data.blogPosts.map(({ id, tagline }) => (
           <Link

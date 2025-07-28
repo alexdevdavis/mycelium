@@ -5,6 +5,7 @@ import {
   type BlogPostDTO,
 } from "../../blog-posts-data";
 import { BlogPostForm } from "../../components/blog-post-form";
+import "./edit.css";
 
 export const Route = createFileRoute("/$blogPostId/edit")({
   loader: async ({ params: { blogPostId } }) => getBlogPost(blogPostId),
@@ -28,6 +29,7 @@ function BlogPostEditor() {
       initialValues={blogPost}
       buttonText="save"
       onSubmit={handleSubmit}
+      className={"edit-blog-post__form"}
     />
   );
 }
