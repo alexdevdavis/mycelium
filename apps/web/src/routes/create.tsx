@@ -16,5 +16,11 @@ function CreateBlogPost() {
     });
   };
 
-  return <BlogPostForm buttonText="submit" onSubmit={handleSubmit} />;
+  return (
+    <BlogPostForm
+      className="create-blog-post__form"
+      buttonText="submit"
+      onSubmit={handleSubmit}
+    />
+  );
 }
