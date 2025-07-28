@@ -22,6 +22,15 @@
     "test": {
       "cache": false,
       "env": ["DB_HOST", "DB_PORT", "DB_USER", "DB_PASS", "DB_NAME"]
+    },
+    "api#dev": {
+      "dependsOn": ["postgres-dev#dev"],
+      "cache": false,
+      "persistent": true
+    },
+    "api#test": {
+      "dependsOn": ["postgres-dev#test"],
+      "cache": false
     }
   }
 }
