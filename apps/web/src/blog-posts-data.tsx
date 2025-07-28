@@ -1,4 +1,3 @@
-import { BlogPost } from "@repo/ui/blog-post";
 import axios from "axios";
 
 export type BlogPost = {
