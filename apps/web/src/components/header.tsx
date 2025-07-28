@@ -3,7 +3,10 @@ import { Button } from "@repo/ui/button";
 import "./header.css";
 
 export function Header() {
-  const handleClick = () => {};
+  const router = useRouter();
+  const handleClick = () => {
+    router.navigate({ to: "/create" });
+  };
   return (
     <header>
       <Link to="/">

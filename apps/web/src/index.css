@@ -16,3 +16,34 @@ body {
   justify-content: center;
   background-color: var(--mushroom-colour);
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: var(--dark-brown) solid 4px;
+  border-radius: 2em;
+  padding: 1em;
+  margin: 4em auto;
+  max-width: 700px;
+  label {
+    align-self: flex-start;
+    margin-left: 10%;
+    font-weight: 700;
+  }
+  input,
+  textarea {
+    line-height: 1.5em;
+    min-width: 300px;
+    width: 80%;
+    margin-bottom: 2em;
+    padding: 5px;
+  }
+  textarea {
+    height: 7em;
+  }
+  button {
+    max-width: 100px;
+  }
+}

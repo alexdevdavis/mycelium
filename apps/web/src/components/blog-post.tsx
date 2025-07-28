@@ -1,4 +1,4 @@
-import { type JSX } from "react";
+import { type JSX, type ReactNode } from "react";
 
 export function BlogPost({
   className,
@@ -6,18 +6,23 @@ export function BlogPost({
   tagline,
   author,
   content,
+  children,
 }: {
   className?: string;
   id: string;
   tagline: string;
   author: string;
   content: string;
+  children?: ReactNode;
 }): JSX.Element {
   return (
     <article className={className}>
       <h2>{tagline}</h2>
-      <p>contributors: {author}</p>
-      <p>{content}</p>
+      {children && children}
+      <p>
+        <span>contributors:</span> {author}
+      </p>
+      <div>{content}</div>
     </article>
   );
 }

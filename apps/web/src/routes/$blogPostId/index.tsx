@@ -15,15 +15,21 @@ function BlogPostView() {
   return (
     <div className="blog-post-view">
       <BlogPost
+        children={
+          <Link to="/$blogPostId/edit" params={{ blogPostId: id.toString() }}>
+            <Button
+              className="blog-post-view__button"
+              buttonText={"edit"}
+              clickHandler={() => {}}
+            />
+          </Link>
+        }
         id={id.toString()}
         tagline={tagline}
         content={content}
         author={author}
         className="blog-post-view__article"
       />
-      <Link to="/$blogPostId/edit" params={{ blogPostId: id.toString() }}>
-        <Button buttonText={"edit"} clickHandler={() => {}} />
-      </Link>
     </div>
   );
 }

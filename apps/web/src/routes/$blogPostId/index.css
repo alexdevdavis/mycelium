@@ -1,16 +1,22 @@
-.blog-post-view {
-}
-
 .blog-post-view__article {
   margin: 0 auto;
   margin-bottom: 3em;
   max-width: 75ch;
   gap: 2em;
+  padding: 2em;
+  text-align: left;
   h2 {
     font-size: 3rem;
   }
-  p {
+  span {
+    font-weight: 800;
+  }
+  p,
+  div {
     text-align: justify;
     font-size: 2rem;
+  }
+  div {
+    white-space: pre-wrap;
   }
 }

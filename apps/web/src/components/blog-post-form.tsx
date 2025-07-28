@@ -25,30 +25,26 @@ export function BlogPostForm({
 
   return (
     <form onSubmit={handleSubmit} className={className}>
-      <label>
-        Tagline:
-        <input
-          name="tagline"
-          type="text"
-          value={tagline}
-          onChange={(e) => setTagline(e.target.value)}
-        />
-      </label>
-      <label>
-        Author:
-        <input
-          type="text"
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
-        />
-      </label>
-      <label>
-        Content:
-        <textarea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
-      </label>
+      <label htmlFor="tagline">Tagline:</label>
+      <input
+        id="tagline"
+        type="text"
+        value={tagline}
+        onChange={(e) => setTagline(e.target.value)}
+      />
+      <label htmlFor="author">Author:</label>
+      <input
+        id="author"
+        type="text"
+        value={author}
+        onChange={(e) => setAuthor(e.target.value)}
+      />
+      <label htmlFor="content">Content:</label>
+      <textarea
+        id="content"
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+      />
       <button>{buttonText}</button>
     </form>
   );
