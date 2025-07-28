@@ -1,9 +1,20 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { createBlogPost, type BlogPostDTO } from "../blog-posts-data";
+import { BlogPostForm } from "../components/blog-post-form";
 
-export const Route = createFileRoute('/create')({
-  component: RouteComponent,
-})
+export const Route = createFileRoute("/create")({
+  component: CreateBlogPost,
+});
 
-function RouteComponent() {
-  return <div>Hello "/create"!</div>
+function CreateBlogPost() {
+  const router = useRouter();
+
+  const handleSubmit = async (values: BlogPostDTO) => {
+    await createBlogPost(values);
+    router.navigate({
+      to: "/",
+    });
+  };
+
+  return <BlogPostForm buttonText="submit" onSubmit={handleSubmit} />;
 }
