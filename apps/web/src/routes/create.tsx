@@ -1,5 +1,6 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { createBlogPost, type BlogPostDTO } from "../api/blog-posts-data";
+import { createBlogPost } from "../api/blog-posts-data";
+import { type BlogPostDTO } from "../validation/blog-post.schema";
 import { BlogPostForm } from "../components/blog-post-form";
 
 export const Route = createFileRoute("/create")({
