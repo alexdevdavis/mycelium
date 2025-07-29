@@ -6,9 +6,6 @@
   padding: 2em;
   text-align: left;
   overflow-wrap: anywhere;
-  h2 {
-    font-size: 3rem;
-  }
   span {
     font-weight: 800;
   }
