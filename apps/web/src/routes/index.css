@@ -4,11 +4,15 @@ ul {
 }
 
 h1 {
-  font-size: 3.2em;
+  font-family:
+    "Rubik Microbe", system-ui, "Open Sans", "Helvetica Neue", sans-serif;
+  font-weight: 800;
+  font-size: 5em;
   line-height: 1.1;
 }
 
 h2 {
+  font-family: "Flavors" cursive;
   color: var(--dark-brown);
 }
 
