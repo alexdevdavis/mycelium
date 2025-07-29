@@ -41,9 +41,9 @@ This Turborepo has some additional tools already setup for you:
 
 For development and test environments, this repo assumes you have a Docker daemon running.
 
-### Development Environment Variables
+### The Development Environment
 
-To ensure the docker container and API connect to the intended database add the following .env files to your repository:
+To ensure the docker container and API connect to the intended database create the following .env files in the root of your local repository:
 
 #### /.env.test
 
@@ -65,7 +65,7 @@ DB_PASS=postgres
 DB_NAME=mycelium_test
 ```
 
-Add the following environment variables to ensure that the Vite api proxy specified in `/apps/web/vite.config.ts` targets the development NestJS API
+Create the following environment variables to ensure that the Vite api proxy specified in `/apps/web/vite.config.ts` targets the development NestJS API
 
 #### /apps/web/.env.development
 
@@ -73,6 +73,16 @@ Add the following environment variables to ensure that the Vite api proxy specif
 VITE_API_HOST=localhost
 VITE_API_PORT=3000
 ```
+
+#### Handy Scripts
+
+_from /apps/api_:
+
+- `npm run seed-dev` enables you to re-seed the dev database
+
+_from repo root_:
+
+- `npm run stop-pg-dev` will compose down the postgres container and clear its volumes
 
 ### Develop
 
