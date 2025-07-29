@@ -41,17 +41,38 @@ This Turborepo has some additional tools already setup for you:
 
 For development and test environments, this repo assumes you have a Docker daemon running.
 
-### Build
+### Development Environment Variables
 
-> We recommend installing [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation). If you choose not to, prefix each `turbo` command with `npx`.
+To ensure the docker container and API connect to the intended database add the following .env files to your repository:
 
-To build all apps and packages, `cd` to the repository's root directory and run the following command:
+#### /.env.test
 
-> `turbo build`
+```code
+DB_HOST=localhost
+DB_PORT=5433
+DB_USER=postgres
+DB_PASS=postgres
+DB_NAME=mycelium_test
+```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+#### /.env.development
 
-> `turbo build --filter=api`
+```code
+DB_HOST=localhost
+DB_PORT=5433
+DB_USER=postgres
+DB_PASS=postgres
+DB_NAME=mycelium_test
+```
+
+Add the following environment variables to ensure that the Vite api proxy specified in `/apps/web/vite.config.ts` targets the development NestJS API
+
+#### /apps/web/.env.development
+
+```code
+VITE_API_HOST=localhost
+VITE_API_PORT=3000
+```
 
 ### Develop
 
@@ -73,22 +94,17 @@ Use the same filter format to target specific applications.
 
 `turbo test --filter=api --filter=postgres-dev`
 
-### Remote Caching
+### Build
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+> We recommend installing [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation). If you choose not to, prefix each `turbo` command with `npx`.
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+To build all apps and packages, `cd` to the repository's root directory and run the following command:
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+> `turbo build`
 
-`turbo login`
+You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-`turbo link`
+> `turbo build --filter=api`
 
 ## Useful Links
 
