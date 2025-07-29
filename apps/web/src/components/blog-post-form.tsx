@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { BlogPostDTO } from "../blog-posts-data";
+import { type BlogPostDTO } from "../blog-posts-data";
 import { blogPostSchema } from "../validation/blog-post.schema";
 
 type BlogPostFormProps = {
@@ -7,6 +7,7 @@ type BlogPostFormProps = {
   buttonText: "save" | "submit";
   className: string;
   onSubmit: (values: BlogPostDTO) => void;
+  handleDelete?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 export function BlogPostForm({
@@ -14,6 +15,7 @@ export function BlogPostForm({
   buttonText,
   className,
   onSubmit,
+  handleDelete,
 }: BlogPostFormProps) {
   const [tagline, setTagline] = useState(initialValues?.tagline ?? "");
   const [author, setAuthor] = useState(initialValues?.author ?? "");
@@ -47,34 +49,42 @@ export function BlogPostForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className={className}>
-      <label htmlFor="tagline">Tagline:</label>
-      <input
-        id="tagline"
-        type="text"
-        value={tagline}
-        onChange={(e) => setTagline(e.target.value)}
-      />
-      {errors.tagline && <p className="form-error">{errors.tagline}</p>}
+    <>
+      <form onSubmit={handleSubmit} className={className}>
+        <label htmlFor="tagline">Tagline:</label>
+        <input
+          id="tagline"
+          type="text"
+          value={tagline}
+          onChange={(e) => setTagline(e.target.value)}
+        />
+        {errors.tagline && <p className="form-error">{errors.tagline}</p>}
 
-      <label htmlFor="author">Author:</label>
-      <input
-        id="author"
-        type="text"
-        value={author}
-        onChange={(e) => setAuthor(e.target.value)}
-      />
-      {errors.author && <p className="form-error">{errors.author}</p>}
+        <label htmlFor="author">Author:</label>
+        <input
+          id="author"
+          type="text"
+          value={author}
+          onChange={(e) => setAuthor(e.target.value)}
+        />
+        {errors.author && <p className="form-error">{errors.author}</p>}
 
-      <label htmlFor="content">Content:</label>
-      <textarea
-        id="content"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-      />
-      {errors.content && <p className="form-error">{errors.content}</p>}
-
-      <button>{buttonText}</button>
-    </form>
+        <label htmlFor="content">Content:</label>
+        <textarea
+          id="content"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
+        {errors.content && <p className="form-error">{errors.content}</p>}
+        <div>
+          <button>{buttonText}</button>
+        </div>
+      </form>
+      {initialValues && (
+        <button className="delete-button" onClick={handleDelete}>
+          delete this post
+        </button>
+      )}
+    </>
   );
 }

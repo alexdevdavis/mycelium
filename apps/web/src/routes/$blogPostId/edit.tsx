@@ -1,5 +1,6 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import {
+  deleteBlogPost,
   getBlogPost,
   updateBlogPost,
   type BlogPostDTO,
@@ -23,11 +24,19 @@ function BlogPostEditor() {
     });
   };
 
+  const handleDelete = async () => {
+    await deleteBlogPost(blogPost.id.toString());
+    router.navigate({
+      to: "/",
+    });
+  };
+
   return (
     <BlogPostForm
       initialValues={blogPost}
       buttonText="save"
       onSubmit={handleSubmit}
+      handleDelete={handleDelete}
       className={"edit-blog-post__form"}
     />
   );
