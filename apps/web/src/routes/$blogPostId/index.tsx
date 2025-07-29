@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { BlogPost } from "../../components/blog-post";
 import { Button } from "@repo/ui/button";
 import { getBlogPost } from "../../api/blog-posts-data";
