@@ -3,7 +3,7 @@ import {
   deleteBlogPost,
   getBlogPost,
   updateBlogPost,
-} from "../../blog-posts-data";
+} from "../../api/blog-posts-data";
 import { type BlogPostDTO } from "../../validation/blog-post.schema";
 import { BlogPostForm } from "../../components/blog-post-form";
 

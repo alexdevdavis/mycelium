@@ -4,7 +4,7 @@ import {
   blogPostSingleSchema,
   blogPostDTOSchema,
   type BlogPostDTO,
-} from "./validation/blog-post.schema";
+} from "../validation/blog-post.schema";
 
 export function getBlogPosts() {
   return axios.get("/api/v1/blog-posts").then(({ data }) => {

@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BlogItem } from "../components/blog-item";
-import { getBlogPosts } from "../blog-posts-data";
+import { getBlogPosts } from "../api/blog-posts-data";
 import "./index.css";
 
 export const Route = createFileRoute("/")({
