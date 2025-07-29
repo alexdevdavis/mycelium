@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { BlogPost } from "../../components/blog-post";
 import { Button } from "@repo/ui/button";
 import { getBlogPost } from "../../api/blog-posts-data";
@@ -11,18 +11,20 @@ export const Route = createFileRoute("/$blogPostId/")({
 
 function BlogPostView() {
   const { id, tagline, content, author } = Route.useLoaderData();
+  const router = useRouter();
+  const handleClick = () => {
+    router.navigate({ to: `/${id}/edit` });
+  };
 
   return (
     <div className="blog-post-view">
       <BlogPost
         children={
-          <Link to="/$blogPostId/edit" params={{ blogPostId: id.toString() }}>
-            <Button
-              className="blog-post-view__button"
-              buttonText={"edit"}
-              clickHandler={() => {}}
-            />
-          </Link>
+          <Button
+            className="blog-post-view__button"
+            buttonText={"edit"}
+            clickHandler={handleClick}
+          />
         }
         id={id.toString()}
         tagline={tagline}
