@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { type BlogPostDTO } from "../blog-posts-data";
-import { blogPostSchema } from "../validation/blog-post.schema";
+import { type BlogPostDTO } from "../validation/blog-post.schema";
+import { blogPostDTOSchema } from "../validation/blog-post.schema";
 
 type BlogPostFormProps = {
   initialValues?: BlogPostDTO;
@@ -27,7 +27,7 @@ export function BlogPostForm({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const result = blogPostSchema.safeParse({ tagline, author, content });
+    const result = blogPostDTOSchema.safeParse({ tagline, author, content });
 
     if (!result.success) {
       const fieldErrors: Partial<Record<keyof BlogPostDTO, string>> = {};
@@ -38,13 +38,10 @@ export function BlogPostForm({
         const messages = flattened[typedKey];
         if (messages?.[0]) fieldErrors[key as keyof BlogPostDTO] = messages[0];
       }
-
       setErrors(fieldErrors);
       return;
     }
-
     setErrors({});
-
     onSubmit(result.data);
   };
 
@@ -76,9 +73,7 @@ export function BlogPostForm({
           onChange={(e) => setContent(e.target.value)}
         />
         {errors.content && <p className="form-error">{errors.content}</p>}
-        <div>
-          <button>{buttonText}</button>
-        </div>
+        <button type="submit">{buttonText}</button>
       </form>
       {initialValues && (
         <button className="delete-button" onClick={handleDelete}>

@@ -1,30 +1,25 @@
 import axios from "axios";
-
-export type BlogPost = {
-  id: number;
-  tagline: string;
-  author: string;
-  content: string;
-  created_at: string;
-  updated_at: string;
-};
-
-export type BlogPostDTO = Omit<BlogPost, "id" | "created_at" | "updated_at">;
+import {
+  blogPostArraySchema,
+  blogPostSingleSchema,
+  blogPostDTOSchema,
+  type BlogPostDTO,
+} from "./validation/blog-post.schema";
 
 export function getBlogPosts() {
-  return axios
-    .get("/api/v1/blog-posts")
-    .then(({ data }: { data: { blogPosts: BlogPost[] } }) => {
-      return data;
-    });
+  return axios.get("/api/v1/blog-posts").then(({ data }) => {
+    const result = blogPostArraySchema.safeParse(data);
+    if (!result.success) throw new Error("Invalid blog post array data");
+    return result.data;
+  });
 }
 
 export function getBlogPost(blogPostId: string) {
-  return axios
-    .get(`/api/v1/blog-posts/${blogPostId}`)
-    .then(({ data }: { data: { blogPost: BlogPost } }) => {
-      return data.blogPost;
-    });
+  return axios.get(`/api/v1/blog-posts/${blogPostId}`).then(({ data }) => {
+    const result = blogPostSingleSchema.safeParse(data);
+    if (!result.success) throw new Error("Invalid blog post object");
+    return result.data.blogPost;
+  });
 }
 
 export function updateBlogPost(
@@ -33,17 +28,22 @@ export function updateBlogPost(
 ) {
   return axios
     .patch(`/api/v1/blog-posts/${blogPostId}`, updates)
-    .then(({ data }: { data: { blogPost: BlogPost } }) => {
-      return data.blogPost;
+    .then(({ data }) => {
+      const result = blogPostSingleSchema.safeParse(data);
+      if (!result.success) throw new Error("Invalid response from update");
+      return result.data.blogPost;
     });
 }
 
 export function createBlogPost(newPost: BlogPostDTO) {
-  return axios
-    .post(`/api/v1/blog-posts`, newPost)
-    .then(({ data }: { data: { blogPost: BlogPost } }) => {
-      return data.blogPost;
-    });
+  const parseInput = blogPostDTOSchema.safeParse(newPost);
+  if (!parseInput.success) throw new Error("invalid input payload");
+
+  return axios.post(`/api/v1/blog-posts`, newPost).then(({ data }) => {
+    const result = blogPostSingleSchema.safeParse(data);
+    if (!result.success) throw new Error("Invalid blog post response");
+    return result.data;
+  });
 }
 
 export async function deleteBlogPost(blogPostId: string) {

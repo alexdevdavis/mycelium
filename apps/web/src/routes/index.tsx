@@ -9,11 +9,11 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const data = Route.useLoaderData();
+  const { blogPosts } = Route.useLoaderData();
   return (
     <div>
       <ul>
-        {data.blogPosts.map(({ id, tagline }) => (
+        {blogPosts.map(({ id, tagline }) => (
           <Link
             to={"/$blogPostId"}
             params={{ blogPostId: id.toString() }}

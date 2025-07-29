@@ -3,8 +3,8 @@ import {
   deleteBlogPost,
   getBlogPost,
   updateBlogPost,
-  type BlogPostDTO,
 } from "../../blog-posts-data";
+import { type BlogPostDTO } from "../../validation/blog-post.schema";
 import { BlogPostForm } from "../../components/blog-post-form";
 
 export const Route = createFileRoute("/$blogPostId/edit")({
