@@ -4,7 +4,6 @@ header {
     margin-top: 0;
   }
   padding: 2em;
-  width: 100%;
   position: sticky;
   background-color: var(--mushroom-colour);
 }
